@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+    Products
+{% endblock title %}
+
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+<div class="d-flex justify-content-center align-item-center mt-5 mb-5">
+    <div class="card p-4 col-6 shadow-lg">
+    <h1 class=" text-center">Add products</h1>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {{form|crispy}}
+
+        <button class="btn btn-success" type="submit">Add</button>
+    </form>
+    </div>
+</div>
+<br>
+<span class="btn btn-success"><strong class="">Available Products:</strong> {{count}}</span>
+
+    
+  <form action="" method="get">
+      <select name="filter_cate"  class="btn-outline rounded-2 p-2 " aria-label="Default select example">
+    <option selected disabled>Search by Category</option>
+    
+    {% for i in cate %}
+    <option value="{{i.id}}" {% if i.id|slugify == filter_cate|slugify %}selected{% endif %}>{{i.name}}</option>
+        
+    {% endfor %}
+        
+    
+    </select>
+    <button class="btn btn-outline-success m-2" type="submit">Filter</button>
+    <a class="btn btn-outline-info" href="{% url 'product' %}">Clear</a>
+
+
+  </form>
+
+<div class="mt-3">
+    <table class="table table-align-middle table-striped table-success text-center">
+        <thead>
+            <tr>
+                <th>Serial</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.description}}</td>
+                <td>{{i.category.name}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.stock_quantity}}</td>
+                <td>{{i.created_at}}</td>
+                <td>
+                    <a href="{% url 'editProduct' i.id %}" class="btn btn-success">Edit</a>
+                    <a href="{% url 'delProduct' i.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+                
+            {% endfor %}
+                
+        </tbody>
+
+    </table>
+</div>
+    
+{% endblock body %}
+    
+    

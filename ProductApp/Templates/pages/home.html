@@ -1,0 +1,57 @@
+{% extends 'base/base.html' %}
+
+
+{% block title %}
+    Home
+{% endblock title %}
+    
+
+{% block body %}
+
+<h1 class="text-center text-success mt-5">Welcome {{username}}</h1>
+
+<span class="btn btn-primary mb-3"><strong>Available: </strong> {{count}} </span>
+<form action="" method="get">
+  <div class=" col-6">
+    <select class="rounded-2 text-primary p-2" name="filter_cat" aria-label="Default select example">
+      <option class="fw-bold " selected disabled>Search By Category</option>
+      
+      {% for i in cate %}
+        <option value="{{i.id}}" {% if i.id|slugify == filter_cat %}selected{% endif %}>{{i.name}}</option>
+      {% endfor %}
+        
+      
+    </select>
+
+    <button class="btn btn-success" type="submit">Filter</button> 
+    <a class="btn btn-outline-danger" href="{% url 'home' %}">Clear</a>     
+  </div>
+</form>
+
+
+<br>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for i in data %}
+  <div class="col text-center">
+    <div class="card h-100">
+      
+      <div class="card-body text-success">
+        <h5 class="card-title">Name: {{i.name}}</h5>
+        <h5 class="card-title">category: {{i.category.name}}</h5>
+        <p class="card-text">Description: {{i.description}}</p>
+        <p class="card-text">Price: {{i.price}}</p>
+        <p class="card-text">Available: {{i.stock_quantity}} pcs</p>
+      </div>
+      <div class="card-footer">
+        <small class="text-body-secondary">Created At: {{i.created_at}}</small>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  
+</div>
+
+
+    
+{% endblock body %}
+    
